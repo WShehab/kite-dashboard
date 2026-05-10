@@ -25,23 +25,6 @@ A clean analytics dashboard built with vanilla HTML, CSS, and JavaScript. No fra
 
 ---
 
-## Usage
-
-Download the zip from [Releases](https://github.com/WalidShehab/kite-dashboard/releases) and open `index.html` in your browser. That's it.
-
-Or clone it:
-
-```bash
-git clone https://github.com/WalidShehab/kite-dashboard
-cd kite-dashboard
-```
-
-Then open `index.html`.
-
-No installs, no server required.
-
----
-
 ## Structure
 
 ```
