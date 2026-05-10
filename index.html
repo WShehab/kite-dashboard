@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kite Analytics Dashboard">
+  <title>Kite | Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('kite-theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
+
+  <div class="dashboard" id="dashboard">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+    
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <a href="#" class="logo" aria-label="Kite Dashboard Home" onclick="event.preventDefault()">
+          <svg class="logo-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="8" fill="rgba(0,212,255,0.1)" stroke="#00d4ff" stroke-width="2"/>
+            <path d="M10 8v16M10 16l10-8M10 16l10 8" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="logo-text">Kite</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul class="nav-list" id="navList">
+          <li>
+            <a href="#dashboard" class="nav-item active" data-page="dashboard" aria-current="page">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#analytics" class="nav-item" data-page="analytics">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+              <span>Analytics</span>
+            </a>
+          </li>
+          <li>
+            <a href="#users" class="nav-item" data-page="users">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Users</span>
+            </a>
+          </li>
+          <li>
+            <a href="#settings" class="nav-item" data-page="settings">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+              <span>Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini">
+          <img src="" alt="" class="user-mini-avatar" id="sidebarAvatar" loading="lazy">
+          <div class="user-mini-info">
+            <span class="user-mini-name" id="sidebarUserName">User</span>
+            <span class="user-mini-role">Admin</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    
+    <main class="main-content" id="main-content">
+      <header class="top-header">
+        <div class="header-left">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="search" id="searchInput" placeholder="Search..." aria-label="Search dashboard">
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="theme-toggle">
+            <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+              <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+              <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </button>
+          </div>
+
+          <div class="notification-wrapper">
+            <button class="icon-btn" id="notificationBtn" aria-label="Notifications" aria-expanded="false" aria-haspopup="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <span class="notification-badge" id="notificationBadge">3</span>
+            </button>
+            <div class="notification-dropdown" id="notificationDropdown" role="menu" aria-label="Notifications dropdown" hidden>
+              <div class="notification-header">
+                <h3>Notifications</h3>
+                <span class="notification-badge-text">3 new</span>
+              </div>
+              <div class="notification-list" id="notificationList"></div>
+              <div class="notification-footer">
+                <button id="markAllRead">Mark all as read</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-profile">
+            <img src="" alt="" class="profile-avatar" id="headerAvatar" loading="lazy">
+            <div class="profile-info">
+              <span class="profile-name" id="headerUserName">User</span>
+              <span class="profile-role">Admin</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-wrapper">
+
+        <!-- Dashboard -->
+        <section id="page-dashboard" class="page-section active">
+          <div class="page-header">
+            <h1>Dashboard</h1>
+            <p class="page-subtitle" id="welcomeSubtitle">Welcome back, here's what's happening today.</p>
+          </div>
+
+          <div class="stats-grid" id="statsGrid">
+            <article class="stat-card skeleton-card" aria-hidden="true">
+              <div class="stat-header"><div class="skeleton skeleton-icon"></div><div class="skeleton" style="width:60px;height:24px"></div></div>
+              <div class="skeleton skeleton-value"></div><div class="skeleton skeleton-label"></div>
+            </article>
+            <article class="stat-card skeleton-card" aria-hidden="true">
+              <div class="stat-header"><div class="skeleton skeleton-icon"></div><div class="skeleton" style="width:60px;height:24px"></div></div>
+              <div class="skeleton skeleton-value"></div><div class="skeleton skeleton-label"></div>
+            </article>
+            <article class="stat-card skeleton-card" aria-hidden="true">
+              <div class="stat-header"><div class="skeleton skeleton-icon"></div><div class="skeleton" style="width:60px;height:24px"></div></div>
+              <div class="skeleton skeleton-value"></div><div class="skeleton skeleton-label"></div>
+            </article>
+            <article class="stat-card skeleton-card" aria-hidden="true">
+              <div class="stat-header"><div class="skeleton skeleton-icon"></div><div class="skeleton" style="width:60px;height:24px"></div></div>
+              <div class="skeleton skeleton-value"></div><div class="skeleton skeleton-label"></div>
+            </article>
+          </div>
+
+          <div class="charts-section">
+            <article class="card chart-card">
+              <header class="card-header">
+                <h2>Revenue Overview</h2>
+                <div class="chart-legend">
+                  <span class="legend-item"><span class="legend-dot cyan" aria-hidden="true"></span>Weekly Income</span>
+                </div>
+              </header>
+              <div class="chart-container" id="mainChart" role="img" aria-label="Bar chart showing weekly revenue">
+                <div class="chart-skeleton" aria-hidden="true">
+                  <div class="skeleton-bar" style="height:40%"></div>
+                  <div class="skeleton-bar" style="height:65%"></div>
+                  <div class="skeleton-bar" style="height:50%"></div>
+                  <div class="skeleton-bar" style="height:80%"></div>
+                  <div class="skeleton-bar" style="height:60%"></div>
+                  <div class="skeleton-bar" style="height:90%"></div>
+                  <div class="skeleton-bar" style="height:75%"></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card widget-card">
+              <header class="card-header">
+                <h2>System Status</h2>
+                <div class="live-indicator" aria-label="Live data connection">
+                  <span class="live-dot" aria-hidden="true"></span><span>Live</span>
+                </div>
+              </header>
+              <div class="clock-widget" id="clockWidget">
+                <div class="clock-time font-mono" id="clockTime" aria-live="off">--:--:--</div>
+                <div class="clock-date" id="clockDate">Loading...</div>
+                <div class="progress-ring">
+                  <svg viewBox="0 0 100 100" aria-hidden="true">
+                    <circle class="track" cx="50" cy="50" r="42"></circle>
+                    <circle class="progress" cx="50" cy="50" r="42" id="dayProgress"></circle>
+                  </svg>
+                  <div class="progress-text font-mono" id="progressText">--%</div>
+                </div>
+                <div class="progress-label">Day Progress</div>
+              </div>
+            </article>
+          </div>
+
+          <div class="table-section">
+            <article class="card table-card">
+              <header class="card-header">
+                <h2>Recent Activity</h2>
+                <button class="btn-text" id="viewAllBtn">View All</button>
+              </header>
+              <div class="table-wrapper">
+                <table class="data-table" id="activityTable">
+                  <thead>
+                    <tr><th scope="col">User</th><th scope="col">Action</th><th scope="col">Status</th><th scope="col">Time</th></tr>
+                  </thead>
+                  <tbody id="tableBody">
+                    <tr class="skeleton-row" aria-hidden="true"><td colspan="4"><div class="skeleton skeleton-line" style="height:40px"></div></td></tr>
+                    <tr class="skeleton-row" aria-hidden="true"><td colspan="4"><div class="skeleton skeleton-line" style="height:40px"></div></td></tr>
+                    <tr class="skeleton-row" aria-hidden="true"><td colspan="4"><div class="skeleton skeleton-line" style="height:40px"></div></td></tr>
+                    <tr class="skeleton-row" aria-hidden="true"><td colspan="4"><div class="skeleton skeleton-line" style="height:40px"></div></td></tr>
+                    <tr class="skeleton-row" aria-hidden="true"><td colspan="4"><div class="skeleton skeleton-line" style="height:40px"></div></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Analytics -->
+        <section id="page-analytics" class="page-section">
+          <div class="page-header">
+            <h1>Analytics</h1>
+            <p class="page-subtitle">Deep insights into your platform performance.</p>
+          </div>
+
+          <div class="stats-grid" id="analyticsStats">
+            <article class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon chart" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                </div>
+                <div class="trend up"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span>14.2%</span></div>
+              </div>
+              <div class="stat-value font-mono">4m 12s</div>
+              <div class="stat-label">Avg. Session</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon users" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="trend down"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg><span>2.1%</span></div>
+              </div>
+              <div class="stat-value font-mono">42.8%</div>
+              <div class="stat-label">Bounce Rate</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon dollar" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <div class="trend up"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span>9.4%</span></div>
+              </div>
+              <div class="stat-value font-mono">$1.24</div>
+              <div class="stat-label">Cost Per Click</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon bitcoin" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.5 9.5c.5-1 1.5-1.5 3-1.5s2.5.5 3 1.5-1 2-3 2-3 .5-3 2 1.5 1.5 3 1.5 2.5-.5 3-1.5"/><path d="M12 6v2"/><path d="M12 16v2"/></svg>
+                </div>
+                <div class="trend up"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg><span>22.7%</span></div>
+              </div>
+              <div class="stat-value font-mono">18.5K</div>
+              <div class="stat-label">Page Views</div>
+            </article>
+          </div>
+
+          <div class="charts-section">
+            <article class="card chart-card">
+              <header class="card-header">
+                <h2>Traffic Overview</h2>
+                <div class="chart-legend">
+                  <span class="legend-item"><span class="legend-dot cyan" aria-hidden="true"></span>Visitors</span>
+                  <span class="legend-item"><span class="legend-dot" style="background:#a78bfa" aria-hidden="true"></span>Unique</span>
+                </div>
+              </header>
+              <div class="line-chart-wrap" id="lineChartWrap">
+                <svg class="line-chart" viewBox="0 0 600 220" preserveAspectRatio="none" id="lineChartSvg" aria-label="Line chart showing monthly traffic">
+                  <defs>
+                    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="var(--accent-cyan)" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="var(--accent-cyan)" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <g class="grid-lines" stroke="var(--border)" stroke-width="1">
+                    <line x1="0" y1="55" x2="600" y2="55"/>
+                    <line x1="0" y1="110" x2="600" y2="110"/>
+                    <line x1="0" y1="165" x2="600" y2="165"/>
+                  </g>
+                  <path class="area-path" id="areaPath" fill="url(#areaGrad)" d=""/>
+                  <path class="line-path" id="linePath" fill="none" stroke="var(--accent-cyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d=""/>
+                  <g id="linePoints"></g>
+                </svg>
+                <div class="line-labels" id="lineLabels"></div>
+              </div>
+            </article>
+
+            <article class="card widget-card">
+              <header class="card-header">
+                <h2>Traffic Sources</h2>
+              </header>
+              <div class="donut-wrap">
+                <svg class="donut-chart" viewBox="0 0 140 140" aria-label="Donut chart showing traffic sources">
+                  <circle cx="70" cy="70" r="58" fill="none" stroke="var(--bg-hover)" stroke-width="16"/>
+                  <circle class="donut-seg" cx="70" cy="70" r="58" fill="none" stroke="var(--accent-cyan)" stroke-width="16" stroke-dasharray="273 364" stroke-dashoffset="0" stroke-linecap="round"/>
+                  <circle class="donut-seg" cx="70" cy="70" r="58" fill="none" stroke="#a78bfa" stroke-width="16" stroke-dasharray="73 364" stroke-dashoffset="-273" stroke-linecap="round"/>
+                  <circle class="donut-seg" cx="70" cy="70" r="58" fill="none" stroke="var(--accent-gold)" stroke-width="16" stroke-dasharray="18 364" stroke-dashoffset="-346" stroke-linecap="round"/>
+                </svg>
+                <div class="donut-center">
+                  <div class="donut-value font-mono">100%</div>
+                  <div class="donut-label">Total</div>
+                </div>
+              </div>
+              <div class="donut-legend">
+                <div class="donut-legend-item"><span class="donut-dot" style="background:var(--accent-cyan)"></span>Direct <strong>75%</strong></div>
+                <div class="donut-legend-item"><span class="donut-dot" style="background:#a78bfa"></span>Social <strong>20%</strong></div>
+                <div class="donut-legend-item"><span class="donut-dot" style="background:var(--accent-gold)"></span>Referral <strong>5%</strong></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="table-section">
+            <article class="card table-card">
+              <header class="card-header"><h2>Top Pages</h2></header>
+              <div class="table-wrapper">
+                <table class="data-table">
+                  <thead>
+                    <tr><th scope="col">Page</th><th scope="col">Views</th><th scope="col">Unique</th><th scope="col">Bounce</th></tr>
+                  </thead>
+                  <tbody id="topPagesBody">
+                    <tr><td>/dashboard</td><td class="font-mono">12,405</td><td class="font-mono">8,231</td><td>32%</td></tr>
+                    <tr><td>/analytics</td><td class="font-mono">8,102</td><td class="font-mono">5,440</td><td>41%</td></tr>
+                    <tr><td>/users</td><td class="font-mono">6,893</td><td class="font-mono">4,112</td><td>28%</td></tr>
+                    <tr><td>/settings</td><td class="font-mono">3,221</td><td class="font-mono">2,005</td><td>55%</td></tr>
+                    <tr><td>/login</td><td class="font-mono">18,940</td><td class="font-mono">14,220</td><td>12%</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Users -->
+        <section id="page-users" class="page-section">
+          <div class="page-header">
+            <h1>Users</h1>
+            <p class="page-subtitle">Manage your team and view user details.</p>
+          </div>
+
+          <div class="users-toolbar">
+            <div class="search-box" style="width:320px">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input type="search" id="usersSearchInput" placeholder="Search users by name or email..." aria-label="Search users">
+            </div>
+            <button class="btn-primary" id="addUserBtn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add User
+            </button>
+          </div>
+
+          <div class="users-grid" id="usersGrid">
+            
+          </div>
+        </section>
+
+        <!-- Settings -->
+        <section id="page-settings" class="page-section">
+          <div class="page-header">
+            <h1>Settings</h1>
+            <p class="page-subtitle">Manage your account and preferences.</p>
+          </div>
+
+          <div class="settings-grid">
+            <article class="card settings-card">
+              <header class="card-header"><h2>Account</h2></header>
+              <div class="settings-body">
+                <div class="account-preview">
+                  <img src="" alt="" class="account-avatar" id="settingsAvatar" loading="lazy">
+                  <div class="account-info">
+                    <div class="account-name" id="settingsUserName">User</div>
+                    <div class="account-email" id="settingsUserEmail">user@kite.local</div>
+                    <span class="status-badge completed">Admin</span>
+                  </div>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="form-row">
+                  <label class="form-label">Display Name</label>
+                  <input type="text" class="form-input" id="settingsNameInput" value="">
+                </div>
+                <div class="form-row">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" class="form-input" id="settingsEmailInput" value="">
+                </div>
+                <button class="btn-primary" style="margin-top:8px" id="saveProfileBtn">Save Changes</button>
+              </div>
+            </article>
+
+            <article class="card settings-card">
+              <header class="card-header"><h2>Appearance</h2></header>
+              <div class="settings-body">
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <div class="setting-title">Dark Mode</div>
+                    <div class="setting-desc">Use dark theme across the dashboard</div>
+                  </div>
+                  <button class="toggle-switch active" id="darkModeToggle" aria-pressed="true" aria-label="Toggle dark mode">
+                    <span class="toggle-knob"></span>
+                  </button>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <div class="setting-title">Compact Mode</div>
+                    <div class="setting-desc">Reduce padding and font sizes</div>
+                  </div>
+                  <button class="toggle-switch" id="compactModeToggle" aria-pressed="false" aria-label="Toggle compact mode">
+                    <span class="toggle-knob"></span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card settings-card">
+              <header class="card-header"><h2>Notifications</h2></header>
+              <div class="settings-body">
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <div class="setting-title">Email Alerts</div>
+                    <div class="setting-desc">Receive summary emails weekly</div>
+                  </div>
+                  <button class="toggle-switch active" id="emailToggle" aria-pressed="true" aria-label="Toggle email alerts">
+                    <span class="toggle-knob"></span>
+                  </button>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <div class="setting-title">Push Notifications</div>
+                    <div class="setting-desc">Real-time alerts in browser</div>
+                  </div>
+                  <button class="toggle-switch active" id="pushToggle" aria-pressed="true" aria-label="Toggle push notifications">
+                    <span class="toggle-knob"></span>
+                  </button>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <div class="setting-title">Marketing</div>
+                    <div class="setting-desc">Product updates and offers</div>
+                  </div>
+                  <button class="toggle-switch" id="marketingToggle" aria-pressed="false" aria-label="Toggle marketing emails">
+                    <span class="toggle-knob"></span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card settings-card">
+              <header class="card-header"><h2>Security</h2></header>
+              <div class="settings-body">
+                <div class="setting-row">
+                  <div class="setting-info">
+                    <div class="setting-title">Two-Factor Auth</div>
+                    <div class="setting-desc">Add an extra layer of security</div>
+                  </div>
+                  <button class="toggle-switch" id="twoFAToggle" aria-pressed="false" aria-label="Toggle two-factor authentication">
+                    <span class="toggle-knob"></span>
+                  </button>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="form-row">
+                  <label class="form-label">Current Password</label>
+                  <input type="password" class="form-input" placeholder="••••••••">
+                </div>
+                <div class="form-row">
+                  <label class="form-label">New Password</label>
+                  <input type="password" class="form-input" placeholder="••••••••">
+                </div>
+                <button class="btn-primary" style="margin-top:8px">Update Password</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
