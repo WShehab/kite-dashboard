@@ -271,16 +271,16 @@ function getFallbackBitcoin() {
 }
 function getFallbackUsers() {
   return [
-    { id: 1, name: 'Leanne Graham', email: 'l.graham@kite.local', company: { name: 'Romaguera-Crona' } },
-    { id: 2, name: 'Ervin Howell', email: 'ervin.howell@testmail.io', company: { name: 'Deckow-Crist' } },
-    { id: 3, name: 'Clementine Bauch', email: 'clem.bauch@democorp.net', company: { name: 'Romaguera-Jacobson' } },
-    { id: 4, name: 'Patricia Lebsack', email: 'patty.l@kite.local', company: { name: 'Robel-Corkery' } },
-    { id: 5, name: 'Chelsey Dietrich', email: 'chels.dietrich@samplemail.dev', company: { name: 'Keebler LLC' } },
-    { id: 6, name: 'Mrs. Dennis Schulist', email: 'd.schulist@testmail.io', company: { name: 'Considine-Lockman' } },
-    { id: 7, name: 'Kurtis Weissnat', email: 'kurt.weissnat@democorp.net', company: { name: 'Johns Group' } },
-    { id: 8, name: 'Nicholas Runolfsdottir', email: 'n.runolf@kite.local', company: { name: 'Abernathy Group' } },
-    { id: 9, name: 'Glenna Reichert', email: 'g.reichert@samplemail.dev', company: { name: 'Yost and Sons' } },
-    { id: 10, name: 'Clementina DuBuque', email: 'c.dubuque@testmail.io', company: { name: 'Hoeger LLC' } }
+    { id: 1, name: 'Alex Morgan', email: 'alex.m@kite.local', company: { name: 'Meridian Co.' } },
+    { id: 2, name: 'Jordan Wells', email: 'j.wells@kite.local', company: { name: 'Vantage Labs' } },
+    { id: 3, name: 'Sam Rivera', email: 's.rivera@kite.local', company: { name: 'Coldfront Inc.' } },
+    { id: 4, name: 'Casey Park', email: 'casey.p@kite.local', company: { name: 'Redline Solutions' } },
+    { id: 5, name: 'Dana Hollis', email: 'd.hollis@kite.local', company: { name: 'Irongate Systems' } },
+    { id: 6, name: 'Riley Okafor', email: 'r.okafor@kite.local', company: { name: 'Sable Group' } },
+    { id: 7, name: 'Morgan Liu', email: 'm.liu@kite.local', company: { name: 'Threshold Media' } },
+    { id: 8, name: 'Taylor Reese', email: 't.reese@kite.local', company: { name: 'Harlow & Co.' } },
+    { id: 9, name: 'Quinn Adler', email: 'q.adler@kite.local', company: { name: 'Vertex Digital' } },
+    { id: 10, name: 'Jamie Nakamura', email: 'j.nakamura@kite.local', company: { name: 'Dusk Studio' } }
   ];
 }
 
